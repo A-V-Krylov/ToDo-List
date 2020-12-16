@@ -1,6 +1,7 @@
 // Переменные 
 const addButton = document.querySelector('.add-button');
 const input = document.querySelector('.input');
+const formContainer = document.querySelector('.form-container');
 const listNotes = document.querySelector('.list-notes');
 const allButton = document.querySelector('.all-button');
 const activeButton = document.querySelector('.active-button');
@@ -10,12 +11,18 @@ const accountActive = document.querySelector('.account-active');
 const buttonContainer = document.querySelector('.button-container');
 let activeNotes = document.querySelector('.active-notes');
 let todoList = [];
+
 // Функции
+function shadowForm() {
+    if (Object.keys(todoList).length == 0)
+        formContainer.classList.remove('shadow');
+    else formContainer.classList.add('shadow');
+}
 
 function buttonGroup() {
-    Object.keys(todoList).length == 0 ? 
-    buttonContainer.classList.add('none') : 
-    buttonContainer.classList.remove('none');
+    if (Object.keys(todoList).length == 0)
+        buttonContainer.classList.add('none');
+    else buttonContainer.classList.remove('none');
 }
 
 function renderNotes(arr) {
@@ -42,7 +49,9 @@ function deleteCard(event) {
         });
         localStorage.setItem('todo', JSON.stringify(todoList));
     }
-    buttonGroup()
+    buttonGroup();
+    numberActiveNotes();
+    shadowForm();
 };
 
 function deleteAllCard(event) {
@@ -52,7 +61,9 @@ function deleteAllCard(event) {
         el.remove();
     })
     todoList = [];
-    buttonGroup()
+    buttonGroup();
+    if (Object.keys(todoList).length != 0) numberActiveNotes();
+    shadowForm();
 }
 
 function crossOut(event) {
@@ -76,37 +87,35 @@ function addClass(event, cl) {
         listNotes.classList.add(cl);
         document.querySelector('.current').classList.remove('current');
         event.target.classList.add('current');
-        
     }
 }
 
 function filterArr(bool) {
-        todoList = JSON.parse(localStorage.getItem('todo'));
-        let arr = todoList.filter(function (el) {
-            return el.check == bool;
-        });    
-            return arr;
+    todoList = JSON.parse(localStorage.getItem('todo'));
+    let arr = todoList.filter(function (el) {
+        return el.check == bool;
+    });
+    return arr;
 }
 
-function numberActiveNotes () {
-    accountActive.textContent = `${filterArr(false).length} items left` 
+function numberActiveNotes() {
+    accountActive.textContent = `${filterArr(false).length} items left`
 }
+
 // Вызов функции 
-
 if (localStorage.getItem('todo') != undefined) {
     todoList = JSON.parse(localStorage.getItem('todo'));
     renderNotes(todoList);
 }
 buttonGroup()
-if(Object.keys(todoList).length != 0) numberActiveNotes();
+if (Object.keys(todoList).length != 0) numberActiveNotes();
+shadowForm();
 
 //Обработчики событий 
 listNotes.addEventListener('click', (event) => {
     deleteCard(event);
     crossOut(event);
 });
-
-
 
 addButton.addEventListener('click', function (event) {
     event.preventDefault();
@@ -117,11 +126,12 @@ addButton.addEventListener('click', function (event) {
     let i = todoList.length;
     todoList[i] = allNotes;
     localStorage.setItem('todo', JSON.stringify(todoList));
-    if(listNotes.classList[1] == 'all-notes') renderNotes(todoList);
-    else if(listNotes.classList[1] == 'active-notes') renderNotes(filterArr(false));
+    if (listNotes.classList[1] == 'all-notes') renderNotes(todoList);
+    else if (listNotes.classList[1] == 'active-notes') renderNotes(filterArr(false));
     input.value = '';
     numberActiveNotes();
     buttonGroup();
+    shadowForm();
 });
 
 allButton.addEventListener('click', function (event) {
@@ -146,4 +156,4 @@ completedButton.addEventListener('click', function (event) {
     numberActiveNotes();
 });
 
-clearComplered.addEventListener('click', deleteAllCard) 
+clearComplered.addEventListener('click', deleteAllCard);
