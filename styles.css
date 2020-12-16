@@ -1,0 +1,128 @@
+body {
+    background-color: oldlace;
+}
+
+.main {
+    font-family: sans-serif ;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-left: auto;
+    margin-right: auto;
+    width: 500px;
+  }
+
+  .form-container {
+      background-color: white;
+      box-shadow:
+      0 0 0 1px rgb(194, 192, 184) inset,
+      0 5px 0 -4px rgb(255, 255, 255),
+      0 5px 0 -3px rgb(194, 192, 184),
+      0 11px 0 -8px rgb(255, 255, 255),
+      0 11px 0 -7px rgb(194, 192, 184),
+      0 17px 0 -12px rgb(255, 255, 255),
+      0 17px 0 -11px rgb(194, 192, 184);
+  }
+  
+  .title {
+    text-align: center;
+    font-size: 80px;
+    margin: 0;
+    color: palevioletred;
+    opacity: 0.2;
+  }
+
+  .clear-complered {
+    margin-right: 10px;
+  }
+  
+  .input-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 auto 0 auto;
+    height: 45px;
+    width: 500px;
+    border: 1px solid ghostwhite;
+    outline: none;
+    box-shadow: 0px 3px 0px 0px rgba(122,122,122,0.2); 
+  }
+  
+  .input {
+    font-style: italic;
+    border: white; 
+    outline: none;
+    text-indent: 15px;
+    width: 100%;
+  }
+  
+  .add-button {
+    margin-right: 10px;
+  }
+  
+  .button-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 auto 0 auto;
+    height: 45px;
+    width: 500px;
+    border: 1px solid ghostwhite;
+    border-top: none;
+    outline: none;
+  }
+  
+  .button {
+    border: none;
+    background: white;
+    outline-color: white;
+    opacity: 0.5;
+  }
+  
+  .account-active {
+    padding-left: 15px;
+    font-size: 13px;
+  }
+  
+  .notes-container {
+    display: flex;
+    align-items: center;
+    margin: 0 auto 0 auto;
+    height: 45px;
+    width: 500px;
+    border: 1px solid ghostwhite;
+    border-top: none;
+    outline: none;
+  }
+  
+  .notes-container:hover > .delete-button{
+    opacity: 0.5;      
+  }
+  
+  .delete-button {
+    padding-right: 25px;
+    color: sienna;
+    margin-left: auto;
+    font-size: 20px;
+    text-decoration: none;
+    opacity: 0;
+  }
+  
+  .check {
+    margin: 0 15px 0;
+  }
+  
+  input:checked + .notes-text {
+    text-decoration: line-through;
+    opacity: 0.5;
+  }
+
+  .none {
+      display: none;
+  }
+
+  .current {
+    border: 1px groove ghostwhite;
+    outline: 1px groove ghostwhite;
+  }
+
