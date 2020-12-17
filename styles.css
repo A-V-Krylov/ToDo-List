@@ -115,7 +115,7 @@ body {
     margin: 0 15px 0;
   }
   
-  input:checked + .notes-text {
+  .completed-task {
     text-decoration: line-through;
     opacity: 0.5;
   }
@@ -129,3 +129,33 @@ body {
     outline: 1px groove ghostwhite;
   }
 
+/* ---------------------- */
+input[type=checkbox] {
+  display: none;
+}
+
+input[type=checkbox] + label {
+  display: inline-block;
+  position: relative;
+  padding: 8px;
+  border: 1px solid #3E0E0D;
+  border-radius: 50%;
+  
+}
+
+.checkbox.checked + label + label {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+input[type=checkbox].checked + label {
+  color: #A4B7C6;
+}
+
+input[type=checkbox].checked + label:after {
+  position: absolute;
+  left: 1px;
+  top: -3px;
+  color: darkgreen; 
+  content: '\2713'; 
+  font-size: 20px;
+} 

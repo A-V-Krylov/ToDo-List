@@ -30,10 +30,11 @@ function renderNotes(arr) {
     let x = 0;
     for (let key in arr) {
         template +=
-            `<div id="${arr[key].id}" class="notes-container">
-        <input  type="checkbox" ${arr[key].check == true ? 'checked' : ''} class="check">
-        <div class="notes-text">${arr[key].text}<label></label></div>
-        <button class='button delete-button'>x</button>
+    `<div  class="notes-container">
+        <input type="checkbox" class="checkbox ${arr[key].check ? 'checked' : '  '}" id="chk${x}" name="chkdemo">
+        <label id="${arr[key].id}" class="check" for="chk${x}"></label>
+        <label class="text">${arr[key].text}</label>
+        <i class="button delete-button fa fa-times" aria-hidden="true"></i>
     </div>`;
         x++;
     }
@@ -45,8 +46,9 @@ function deleteCard(event) {
         event.preventDefault();
         event.target.parentNode.remove();
         todoList = todoList.filter(function (el) {
-            return el.id != event.target.parentNode.id;
-        });
+            return el.id != 
+            event.target.parentNode.querySelector('label').id;
+        }); 
         localStorage.setItem('todo', JSON.stringify(todoList));
     }
     buttonGroup();
@@ -68,7 +70,16 @@ function deleteAllCard(event) {
 
 function crossOut(event) {
     if (event.target.classList == 'check') {
-        todoList.find(el => el.id == event.target.parentNode.id).check = event.target.checked;
+        const index = todoList.findIndex(el => el.id == event.target.id);
+        todoList[index].check = !todoList[index].check;  
+
+        if (todoList.find(el => el.id == event.target.id).check) {
+            event.target.parentNode.querySelector('input').classList.add('checked');
+        }
+        else {
+            event.target.parentNode.querySelector('input').classList.remove('checked');
+        } 
+
         localStorage.setItem('todo', JSON.stringify(todoList));
 
         if (listNotes.classList[1] == 'active-notes') {
@@ -77,8 +88,8 @@ function crossOut(event) {
         else if (listNotes.classList[1] == 'completed-notes') {
             renderNotes(filterArr(true));
         }
-        numberActiveNotes();
-    };
+        numberActiveNotes(); 
+    }; 
 }
 
 function addClass(event, cl) {
@@ -108,7 +119,9 @@ if (localStorage.getItem('todo') != undefined) {
     renderNotes(todoList);
 }
 buttonGroup()
-if (Object.keys(todoList).length != 0) numberActiveNotes();
+if (Object.keys(todoList).length != 0) {
+    numberActiveNotes()
+};
 shadowForm();
 
 //Обработчики событий 
@@ -119,19 +132,25 @@ listNotes.addEventListener('click', (event) => {
 
 addButton.addEventListener('click', function (event) {
     event.preventDefault();
-    let allNotes = {};
-    allNotes.text = input.value;
-    allNotes.check = false;
-    allNotes.id = Math.ceil(Math.random() * 10000);
-    let i = todoList.length;
-    todoList[i] = allNotes;
-    localStorage.setItem('todo', JSON.stringify(todoList));
-    if (listNotes.classList[1] == 'all-notes') renderNotes(todoList);
-    else if (listNotes.classList[1] == 'active-notes') renderNotes(filterArr(false));
-    input.value = '';
-    numberActiveNotes();
-    buttonGroup();
-    shadowForm();
+    if (input.value.trim().length > 0) {
+        let allNotes = {};
+        allNotes.text = input.value;
+        allNotes.check = false;
+        allNotes.id = Math.ceil(Math.random() * 10000);
+        let i = todoList.length;
+        todoList[i] = allNotes;
+        localStorage.setItem('todo', JSON.stringify(todoList));
+        if (listNotes.classList[1] == 'all-notes') {
+            renderNotes(todoList);
+        }
+        else if (listNotes.classList[1] == 'active-notes') {
+            renderNotes(filterArr(false));
+        }
+        input.value = '';
+        numberActiveNotes();
+        buttonGroup();
+        shadowForm();
+    }
 });
 
 allButton.addEventListener('click', function (event) {
